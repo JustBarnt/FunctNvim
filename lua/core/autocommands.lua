@@ -1,23 +1,27 @@
---[[ local group = vim.api.nvim_create_augroup("CursorLineControl", { clear = true })
-local set_cursorline = function(event, value, pattern)
-    vim.api.nvim_create_autocmd(event, {
-        group = group,
-        pattern = pattern,
-        callback = function()
-            vim.opt_local.cursorline = value
-        end,
-    })
-end
-set_cursorline("WinLeave", false)
-set_cursorline("WinEnter", true)
-set_cursorline("FileType", false, "TelescopePrompt") ]]
-
 local augroup = vim.api.nvim_create_augroup
 local cmd = vim.api.nvim_create_autocmd
 
-local exist, config = pcall(require, "user.config")
-local group = exist and type(config) == "table" and config.autocommands or {}
+local config = require("user.config")
+local config_found = pcall(require, "user.config")
+local group = config_found and type(config) == "table" and config.autocommands or {}
 local enabled = require("core.utils").enabled
+
+-- Hides CursorLine in inactive windows
+if enabled(group, "hide_cursor_inactive") then
+    local set_cursorline = function(event, value, pattern)
+        cmd(event, {
+            group = augroup("CursorLineControl", { clear = true }),
+            pattern = pattern,
+            callback = function()
+                vim.opt_local.cursorline = value
+            end,
+        })
+    end
+
+    set_cursorline("WinLeave", false, "*")
+    set_cursorline("WinEnter", true, "*")
+    set_cursorline("FileType", false, "TelescopePrompt")
+end
 
 -- Uses virt_text for inlays hints
 if enabled(group, "inlay_hints") then

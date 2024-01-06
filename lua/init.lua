@@ -9,7 +9,7 @@ if not vim.loop.fs_stat(lazypath) then
         "--filter=blob:none",
         "https://github.com/folke/lazy.nvim.git",
         "--branch=stable",
-        lazypath
+        lazypath,
     })
 end
 vim.opt.rtp:prepend(lazypath)
@@ -19,9 +19,9 @@ vim.opt.rtp:prepend(lazypath)
 for _, source in ipairs({
     "core.options",
     "core.keymaps",
-    "core.utils.utils",
-    "core.autocmds",
-    "core.usercmds"
+    "core.utils",
+    "core.autocommands",
+    "core.usercommands",
 }) do
     local status_ok, fault = pcall(require, source)
     if not status_ok then
@@ -29,7 +29,7 @@ for _, source in ipairs({
     end
 end
 
--- Get user config 
+-- Get user config
 local exist, user_config = pcall(require, "user.config")
 local group = exist and user_config.enable_plugins or {}
 
@@ -48,5 +48,5 @@ vim.cmd("colorscheme rose-pine")
 
 -- If we have a user config, run our user config
 if exist then
-    user_config.user_conf() 
+    user_config.user_conf()
 end

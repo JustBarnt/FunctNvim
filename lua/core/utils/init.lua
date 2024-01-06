@@ -1,5 +1,15 @@
 local M = {}
 
+M.telescope_modules = {
+    actions = require("telescope.actions"),
+    action_state = require("telescope.actions.state"),
+    builtin = require("telescope.builtin"),
+    extensions = require("telescope").extensions,
+    putils = require("telescope.previewers.utils"),
+    themes = require("telescope.themes"),
+    trouble = require("trouble.providers.telescope"),
+}
+
 -- Sets main options from options (table)
 M.vim_opts = function(options)
     if options ~= nil then
