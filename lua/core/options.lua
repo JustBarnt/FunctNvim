@@ -8,6 +8,8 @@ vim.opt.shortmess:append("sIW")
 vim_opts({
     opt = {
         -- Editor / Command options
+        number = true, -- Enables line numbers in the editor
+        relativenumber = true, -- Displays number relative to your cursor position, useful for learning quick vertical movments
         numberwidth = 2, -- Min num of cols to use line numbers
         wildmode = "longest:full", -- Completion mode used for the char specified with "wildchar"
         wildoptions = "pum", -- Effects how cmdline-completion is done
